@@ -13,7 +13,7 @@ app.put('/put',(req, res)=>{
 
 });
 
-app.delete('/put',(req, res)=>{
+app.delete('/delete',(req, res)=>{
   res.send("This is out delete function kaustav");
 
 
