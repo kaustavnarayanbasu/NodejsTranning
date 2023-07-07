@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express()
-const port = 8014
+const port = 8027
 //need this middlewire to read the json data
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -73,26 +73,71 @@ app.get("/get_user", (request, response) => {
   })
    });
 
-   app.get('/get_Perticular_user/name',(request, response)=>{
-    userModel.find({name:'Kaustav Basu'}).then((list)=>{
+   app.get('/get_Perticular_user/Id',(request, response)=>{
+    userModel.find({"_id":"64a19fe32f76234d84e354b5"}).then((list)=>{
+     
       response.send(list);
     }).catch((err)=>{
       response.status(500).send(error);
     })
      });
 
-     app.put('/update_perticular_user',(req, res)=>{
-      let UpdateData = {"name" : request.body.name,
-      "_id" : request.body._id};
-      const user = new userModel(request.body);
-      userModel.findById(UpdateData._id).then((list)=>{
-         user.save();
-      }).catch((err)=>{
-        response.status(500).send(error);
-      })
-    
+     app.put('/update_perticular_user',async(request, response)=>{
+      // let UpdateData = {"name" : request.body._id,
+      // "_id" : request.body._id};
+      // const user = new userModel(request.body);
+      // userModel.findById(UpdateData._id).then((list)=>{
+      //    user.save();
+      // }).catch((err)=>{
+      //   response.status(500).send(error);
+      // })
+      let UpdateData = {"_Id":request.body._id,"name" : request.body.name,
+      "age" : request.body.age};
+      const user = new userModel(UpdateData);
+      console.log("app hit for update");
+    try{
+    await userModel.updateOne(
+      { "_id":"64a19fe32f76234d84e354b5" },
+      { $set: { "name" : "Ramesh Narayan Ghosh" } }
+      );
+      response.send(user);
+    }
+    catch (error) {
+      response.status(500).send(error);
+    }
     
       });
+
+
+      app.delete('/delete_perticular_user',async(request, response)=>{
+        try{
+          await userModel.deleteOne(
+            { "_id":"64a1a4a82f76234d84e354bb" })
+            
+            response.send(user);
+          }
+          catch (error) {
+            response.status(500).send(error);
+            }
+        
+        });
+
+        app.put('/update_perticular_user_by_id',async(request, response)=>{
+          try{
+
+            const filter = { '_Id': '64a19fe52f76234d84e354b7' };
+            const update = { 'name': 'Dinesh Sing'};
+            
+            let doc = await Character.findOneAndUpdate(filter, update);
+            console.log('updated');
+            response.send(doc);
+
+          }
+          catch(error){
+            response.status(500).send(error);
+          }
+          
+        });
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
