@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express()
-const port = 8027
+const port = 8030
 //need this middlewire to read the json data
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -32,7 +32,7 @@ const userModel = require("./model/userSchema");
 app.post("/add_user", async (request, response) => {
   let insertData = {"name" : request.body.name,
 "age" : request.body.age};
-  const user = new userModel(request.body);
+  const user = new userModel(insertData);
   console.log("app hit");
   try {
     await user.save();
@@ -138,7 +138,28 @@ app.get("/get_user", (request, response) => {
           }
           
         });
+        //Update with dinamic user
+        app.put('/updateUser/:id', (req, res) => {
+          console.log("Id to update:::::", req.params.id)
+          const taskToUpdate = req.body;
+          userModel.findOneAndUpdate({"_id":req.params.id},taskToUpdate)
+          .then((user)=>{
+              res.send("User Updated Successfully");
+          }).catch((err)=>{
+              res.send(err);
+          })
+      })
 
+
+      /* API to Hard delete particular user Details in MongoDB */
+      app.delete('/deleteUser/:userId',function(req,res){
+        userModel.findOneAndDelete({"_id":req.params.userId})
+      .then((user)=>{
+          res.send(user);
+      }).catch((err)=>{
+          res.send(err);
+      })
+      })
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
