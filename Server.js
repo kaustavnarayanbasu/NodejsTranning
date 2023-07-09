@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use("/userRoute",userRoute);
 app.use("/productRoute",productRoute);
 app.use("/adminRoute",adminRoute);
+
+
 // in this page we will have only middleware and code to run server
 // app.use(bodyParser.json())
 // app.use(bodyParser.urlencoded({ extended: false }))

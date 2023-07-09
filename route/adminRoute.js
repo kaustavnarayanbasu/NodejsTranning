@@ -11,6 +11,9 @@ router.get("/",function(req,res){
     res.send("hello world kaustav admin");
  })
 
+
+
+ 
  router.get("/second_kaustav",function(req,res){
     res.send("hello world kaustav from second");
  })
