@@ -3,15 +3,15 @@ const express = require('express');
 //const bodyParser = require('body-parser');
 //const userModel = require("./model/userSchema");
 const userRoute = require("./route/userRoute");
-const productRoute=require("./route/productRoute");
-const adminRoute=require("./route/adminRoute");
+// const productRoute=require("./route/productRoute");
+// const adminRoute=require("./route/adminRoute");
 const app = express()
-const port = 8003;
+const port = 8011;
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use("/userRoute",userRoute);
-app.use("/productRoute",productRoute);
-app.use("/adminRoute",adminRoute);
+app.use("/user",userRoute);
+// app.use("/productRoute",productRoute);
+// app.use("/adminRoute",adminRoute);
 
 
 // in this page we will have only middleware and code to run server
