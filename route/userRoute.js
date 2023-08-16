@@ -1,27 +1,33 @@
 const express = require('express')
 const router = express.Router()
 const userController = require("../controller/userController")
-const winston = require('winston')
-const expressWinston = require('express-winston');
+// const winston = require('winston')
+// const expressWinston = require('express-winston');
 
 
-router.use(expressWinston.logger({
-transports:[
-new transports.console(),
-new winston.transport.file({
+// router.use(expressWinston.logger({
+// transports:[
+// new winston.transports.Console(),
+// new winston.transports.file({
 
-filename:"error.log"
-
-
-})
+// filename:"error.log"
 
 
-]
+// })
 
 
-})
+// ],
+// format: format.combine(
+//     format.json(),
+//     format.timestamp(),
+//     format.prettyPrint()
 
-)
+// ),
+// statusLevels:true
+
+// })
+
+// )
 // middleware that is specific to this router
 router.use((req, res, next) => {
    console.log("API called",new Date());

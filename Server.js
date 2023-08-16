@@ -3,14 +3,18 @@ const express = require('express');
 //const bodyParser = require('body-parser');
 //const userModel = require("./model/userSchema");
 const userRoute = require("./route/userRoute");
-// const productRoute=require("./route/productRoute");
+const logger=require("./config/loggerConfig");
+const commeonFunction=require("./utils/commonFunction");
+const commonFunction = require('./utils/commonFunction');
+var CronJob = require('cron').CronJob;
+const productRoute=require("./route/productRoute");
 // const adminRoute=require("./route/adminRoute");
 const app = express()
-const port = 8011;
+const port = 8014;
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use("/user",userRoute);
-// app.use("/productRoute",productRoute);
+ app.use("/productRoute",productRoute);
 // app.use("/adminRoute",adminRoute);
 
 
@@ -171,8 +175,21 @@ app.use("/user",userRoute);
 //           res.send(err);
 //       })
 //       })
+
+var job = new CronJob(
+  '20 20 21 * * *',
+  function() {
+      console.log('You will see this message every second');
+      commonFunction.cleanLoggerFile();
+  },
+  null,
+  true,
+  'Asia/Kolkata'
+);
+// job.start()
 app.listen(port, () => {
-  console.log(`app listening on port ${port}`);
+  console.log(`example app listening on port ${port}`);
+  logger.info(`example app listening on port ${port}`);
 });
 
 
